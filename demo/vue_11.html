@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>orderBy过滤器</title>
+	<script type="text/javascript" src="vue.js"></script>
+</head>
+<body>
+	<div id="myApp">
+		<p>按照什么排序呢?</p>
+		<button @click="order('id')">id</button>
+		<button @click="order('num')">num</button>
+		<button @click="order('price')">price</button>
+		<button @click="index(true)">正序</button>
+		<button @click="index(false)">倒序</button>
+		<ul>
+			<li v-for=" item in newArr">
+				<span>{{item.id}}</span>
+				<span>{{item.name}}</span>
+				<span>{{item.num}}</span>
+				<span>{{item.price}}</span>
+			</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		var vue = new Vue({
+			el:'#myApp',
+			data:{
+				arr:[
+					{id:2,name:'山竹',num:5,price:11},
+					{id:1,name:'荔枝',num:8,price:20},
+					{id:4,name:'桂圆',num:3,price:6},
+					{id:3,name:'提子',num:20,price:5}	
+				],
+				// 按照什么来排序
+				orderBy:'id',
+				// 正序or倒序
+				indexBy:true
+			},
+			computed:{
+				// 计算属性,根据orderBy或indexBy来动态改变newArr
+				newArr:function () {
+					return this.arr.sort( (a,b)=>{
+						return this.indexBy ? a[this.orderBy] > b[this.orderBy] : a[this.orderBy] < b[this.orderBy];
+					})
+				}
+			},
+			methods:{
+				order:function (orderName) {
+					this.orderBy = orderName;
+				},
+				index:function (indexBool) {
+					this.indexBy = indexBool;
+				}
+			}
+		})
+	</script>
+	
+</body>
+</html>
